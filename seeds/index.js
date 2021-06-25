@@ -28,7 +28,7 @@ const seedDB = async () => {
 		let { city, state } = sample(cities);
 		let camp = new Campground({
 			location: `${city}, ${state}`,
-			title: `${sample(descriptors)} ${sample(places)}`
+			name: `${sample(descriptors)} ${sample(places)}`
 		});
 		await camp.save();
 	}
