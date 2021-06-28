@@ -22,17 +22,24 @@ mongoose.connection.on('error', err => {
 
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
+
+
 const seedDB = async () => {
 	await Campground.deleteMany({});
 	for (let i = 0; i < 200; i++) {
 		let { city, state } = sample(cities);
+		const price = Math.floor(Math.random() * 20) + 10;
 		let camp = new Campground({
 			location: `${city}, ${state}`,
-			name: `${sample(descriptors)} ${sample(places)}`
+			name: `${sample(descriptors)} ${sample(places)}`,
+			image: 'https://source.unsplash.com/collection/483251//800x600',
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam tempora laboriosam ea corrupti officiis odio eaque assumenda iste provident, sapiente accusantium fuga perferendis recusandae laborum.',
+			price
 		});
 		await camp.save();
 	}
 }
+
 
 seedDB().then(() => {
 	mongoose.connection.close();
