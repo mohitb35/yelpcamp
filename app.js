@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const Campground = require('./models/campground');
 
 const mongoose = require('mongoose');
+const campground = require('./models/campground');
 
 mongoose.connect(
 	'mongodb://localhost:27017/yelpcamp', //specifies URL, port and database name
@@ -53,8 +54,7 @@ app.get('/campgrounds/new', (req, res) => {
 })
 
 app.post('/campgrounds', async (req, res) => {
-	let { name, location } = req.body.campground;
-	let camp = new Campground({ name, location });
+	let camp = new Campground(req.body.campground);
 	try {
 		await camp.save();
 	} catch (error) {

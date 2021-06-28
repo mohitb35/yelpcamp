@@ -1,15 +1,61 @@
 <% layout('layouts/boilerplate') %>
-
-<h1>Add Campground</h1>
-<form action="/campgrounds" method="post">
-	<div>
-		<label for="name">Name</label>
-		<input type="text" id="name" name="campground[name]" />
+<div class="row">
+	<h1 class="text-center">Add Campground</h1>
+	<div class="col-6 offset-3">
+		<form action="/campgrounds" method="post">
+			<div class="mb-3">
+				<label for="name" class="form-label">Name</label>
+				<input
+					type="text"
+					class="form-control"
+					id="name"
+					name="campground[name]"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="location" class="form-label">Location</label>
+				<input
+					type="text"
+					class="form-control"
+					id="location"
+					name="campground[location]"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="price" class="form-label">Price</label>
+				<div class="input-group">
+					<span class="input-group-text" id="price-label">$</span>
+					<input
+						type="number"
+						class="form-control"
+						id="price"
+						name="campground[price]"
+					/>
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="image" class="form-label">Image URL</label>
+				<input
+					type="text"
+					class="form-control"
+					id="image"
+					name="campground[image]"
+				/>
+			</div>
+			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea
+					class="form-control"
+					id="description"
+					name="campground[description]"
+					cols="30"
+					rows="5"
+				></textarea>
+			</div>
+			<div class="mb-3">
+				<button type="submit" class="btn btn-success">Save</button>
+			</div>
+		</form>
+		<a href="/campgrounds">View all camps</a>
 	</div>
-	<div>
-		<label for="location">Location</label>
-		<input type="text" id="location" name="campground[location]" />
-	</div>
-	<button type="submit">Save</button>
-</form>
-<a href="/campgrounds">View all camps</a>
+</div>

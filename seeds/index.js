@@ -32,7 +32,7 @@ const seedDB = async () => {
 		let camp = new Campground({
 			location: `${city}, ${state}`,
 			name: `${sample(descriptors)} ${sample(places)}`,
-			image: 'https://source.unsplash.com/collection/483251//800x600',
+			image: 'https://source.unsplash.com/collection/483251/800x600',
 			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam tempora laboriosam ea corrupti officiis odio eaque assumenda iste provident, sapiente accusantium fuga perferendis recusandae laborum.',
 			price
 		});
