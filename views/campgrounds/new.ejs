@@ -2,7 +2,7 @@
 <div class="row">
 	<h1 class="text-center">Add Campground</h1>
 	<div class="col-6 offset-3">
-		<form action="/campgrounds" method="post">
+		<form action="/campgrounds" method="post" novalidate class="validated-form">
 			<div class="mb-3">
 				<label for="name" class="form-label">Name</label>
 				<input
@@ -10,7 +10,10 @@
 					class="form-control"
 					id="name"
 					name="campground[name]"
+					required
 				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">What is the camp name?</div>
 			</div>
 			<div class="mb-3">
 				<label for="location" class="form-label">Location</label>
@@ -19,7 +22,10 @@
 					class="form-control"
 					id="location"
 					name="campground[location]"
+					required
 				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Where is the campground?</div>
 			</div>
 			<div class="mb-3">
 				<label for="price" class="form-label">Price</label>
@@ -30,17 +36,23 @@
 						class="form-control"
 						id="price"
 						name="campground[price]"
+						required
 					/>
+					<div class="valid-feedback">Looks good!</div>
+					<div class="invalid-feedback">Please enter a valid price.</div>
 				</div>
 			</div>
 			<div class="mb-3">
 				<label for="image" class="form-label">Image URL</label>
 				<input
-					type="text"
+					type="url"
 					class="form-control"
 					id="image"
 					name="campground[image]"
+					required
 				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please enter a valid image URL.</div>
 			</div>
 			<div class="mb-3">
 				<label for="description" class="form-label">Description</label>
@@ -48,9 +60,11 @@
 					class="form-control"
 					id="description"
 					name="campground[description]"
-					cols="30"
 					rows="5"
+					required
 				></textarea>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please describe the camp.</div>
 			</div>
 			<div class="mb-3">
 				<button type="submit" class="btn btn-success">Save</button>
