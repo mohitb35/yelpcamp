@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
-const ejsMate = require('ejs-mate');
 const path = require('path');
+const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
+
+const catchAsync = require('./utils/catchAsync');
+const ExpressError = require('./utils/ExpressError');
 
 const Campground = require('./models/campground');
 
@@ -39,89 +42,60 @@ app.get('/', (req, res) => {
 	res.render('home');
 })
 
-app.get('/campgrounds', async (req, res) => {
-	let campgrounds;
-	try {
-		campgrounds = await Campground.find({});
-	} catch (error) {
-		console.log("Error retrieving campgrounds");
-		console.log(error.message);
-	}
+app.get('/campgrounds', catchAsync( async (req, res) => {
+	const campgrounds = await Campground.find({});
 	res.render('campgrounds/', { campgrounds });
-})
+}));
 
 app.get('/campgrounds/new', (req, res) => {
 	res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async (req, res) => {
-	let camp = new Campground(req.body.campground);
-	try {
-		await camp.save();
-	} catch (error) {
-		console.log("Error creating campground");
-		console.log(error.message);
-	}
+app.post('/campgrounds', catchAsync( async (req, res) => {
+	if (!req.body.campground) throw new ExpressError (400, 'Invalid campground data');
+	const camp = new Campground(req.body.campground);
+	await camp.save();
 	res.redirect(`/campgrounds/${camp.id}`);
-})
+}));
 
-app.get('/campgrounds/:id', async (req, res) => {
-	let campground;
+app.get('/campgrounds/:id', catchAsync( async (req, res) => {
 	let { id } = req.params;
-	try {
-		campground = await Campground.findById(id);
-	} catch (error) {
-		console.log("Error retrieving campgrounds");
-		console.log(error.message);
-	}
+	const campground = await Campground.findById(id);
 	res.render('campgrounds/show', { campground });
-})
+}));
 
-app.get('/campgrounds/:id/edit', async (req, res) => {
-	let campground;
+app.get('/campgrounds/:id/edit', catchAsync( async (req, res) => {
 	let { id } = req.params;
-	try {
-		campground = await Campground.findById(id);
-	} catch (error) {
-		console.log("Error retrieving campground");
-		console.log(error.message);
-	}
+	const campground = await Campground.findById(id);
 	res.render('campgrounds/edit', { campground });
-})
+}));
 
-app.put('/campgrounds/:id', async (req, res) => {
+app.put('/campgrounds/:id', catchAsync( async (req, res) => {
 	let campground = req.body.campground;
 	let { id } = req.params;
-	let updatedCamp;
-
-	try {
-		updatedCamp = await Campground.findByIdAndUpdate(
-			id, 
-			campground, 
-			{ new: true, useFindAndModify: false, runValidators: true }
+	const updatedCamp = await Campground.findByIdAndUpdate(
+			id, campground, { new: true, useFindAndModify: false, runValidators: true }
 		);
-	} catch (error) {
-		console.log("Error updating campground");
-		console.log(error.message);
-	}
-
 	res.redirect(`/campgrounds/${id}`);
-})
+}));
 
-app.delete('/campgrounds/:id', async (req, res) => {
+app.delete('/campgrounds/:id', catchAsync( async (req, res) => {
 	let { id } = req.params;
-	let deletedCamp;
-
-	try {
-		deletedCamp = await Campground.findByIdAndDelete(id);
-	} catch (error) {
-		console.log("Error deleting campground");
-		console.log(error.message);
-	}
-
+	const deletedCamp = await Campground.findByIdAndDelete(id);
 	res.redirect(`/campgrounds`);
+}));
+
+app.all('*', (req, res, next) => {
+	next(new ExpressError(404, 'Page not found!'));
 })
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+	const { statusCode = 500 } = err;
+	if (!err.message) err.message = 'Something went wrong!';
+ 	// res.send("Something went wrong!!");
+	res.status(statusCode).render('error', { err });
+})
 
 const port = process.env.PORT || 3000;
 
