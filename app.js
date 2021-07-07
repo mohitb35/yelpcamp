@@ -4,11 +4,12 @@ const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 
-const { campgroundSchema } = require('./schemas');
+const { campgroundSchema, reviewSchema } = require('./schemas');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 
 const Campground = require('./models/campground');
+const Review = require('./models/review');
 
 const mongoose = require('mongoose');
 const campground = require('./models/campground');
@@ -49,11 +50,23 @@ const validateCampground = (req, res, next) => {
 	next();
 }
 
+const validateReview = (req, res, next) => {
+	const { error } = reviewSchema.validate(req.body);
+	
+	if (error) {
+		const msg = error.details.map((el => el.message)).join(',');
+		throw new ExpressError(400, msg);
+	}
+
+	next();
+}
+
 // Routes
 app.get('/', (req, res) => {
 	res.render('home');
 })
 
+// Campground Routes
 app.get('/campgrounds', catchAsync( async (req, res) => {
 	const campgrounds = await Campground.find({});
 	res.render('campgrounds/', { campgrounds });
@@ -72,7 +85,7 @@ app.post('/campgrounds', validateCampground, catchAsync( async (req, res) => {
 
 app.get('/campgrounds/:id', catchAsync( async (req, res) => {
 	let { id } = req.params;
-	const campground = await Campground.findById(id);
+	const campground = await Campground.findById(id).populate('reviews');
 	res.render('campgrounds/show', { campground });
 }));
 
@@ -95,6 +108,18 @@ app.delete('/campgrounds/:id', catchAsync( async (req, res) => {
 	let { id } = req.params;
 	const deletedCamp = await Campground.findByIdAndDelete(id);
 	res.redirect(`/campgrounds`);
+}));
+
+// Review Routes
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync( async (req, res) => {
+	const { id } = req.params;
+	const review = new Review(req.body.review);
+	const campground = await Campground.findById(id);
+	campground.reviews.push(review);
+	await review.save(); //Need to save the new review into DB, otherwise we will only have an empty object reference
+	await campground.save();
+	console.log(campground);
+	res.redirect(`/campgrounds/${campground.id}`);
 }));
 
 app.all('*', (req, res, next) => {
