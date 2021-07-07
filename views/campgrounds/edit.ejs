@@ -1,34 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Edit Campground</title>
-	</head>
-	<body>
-		<h1>Edit Campground</h1>
-		<form action="/campgrounds/<%= campground.id %>?_method=PUT" method="post">
-			<div>
-				<label for="name">Name</label>
+<% layout('layouts/boilerplate') %>
+<div class="row">
+	<h1 class="text-center">Edit Campground</h1>
+	<div class="col-6 offset-3">
+		<form
+			action="/campgrounds/<%= campground.id %>?_method=PUT"
+			method="POST"
+			novalidate
+			class="validated-form"
+		>
+			<div class="mb-3">
+				<label for="title" class="form-label">Name</label>
 				<input
 					type="text"
-					id="name"
-					name="campground[name]"
-					value="<%= campground.name %>"
+					class="form-control"
+					id="title"
+					name="campground[title]"
+					value="<%= campground.title %>"
+					required
 				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">What is the camp name?</div>
 			</div>
-			<div>
-				<label for="location">Location</label>
+			<div class="mb-3">
+				<label for="location" class="form-label">Location</label>
 				<input
 					type="text"
+					class="form-control"
 					id="location"
 					name="campground[location]"
 					value="<%= campground.location %>"
+					required
 				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Where is the campground?</div>
 			</div>
-			<button type="submit">Save</button>
+			<div class="mb-3">
+				<label for="price" class="form-label">Price</label>
+				<div class="input-group">
+					<span class="input-group-text" id="price-label">$</span>
+					<input
+						type="number"
+						class="form-control"
+						id="price"
+						name="campground[price]"
+						value="<%= campground.price %>"
+						required
+					/>
+					<div class="valid-feedback">Looks good!</div>
+					<div class="invalid-feedback">Please enter a valid price.</div>
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="image" class="form-label">Image URL</label>
+				<input
+					type="url"
+					class="form-control"
+					id="image"
+					name="campground[image]"
+					value="<%= campground.image %>"
+					required
+				/>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please enter a valid image URL.</div>
+			</div>
+			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea
+					class="form-control"
+					id="description"
+					name="campground[description]"
+					rows="5"
+					required
+				>
+<%= campground.description %>
+				</textarea
+				>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please describe the camp.</div>
+			</div>
+			<div class="mb-3">
+				<button type="submit" class="btn btn-success">Update</button>
+			</div>
 		</form>
 		<a href="/campgrounds/<%= campground.id %>">Cancel</a>
-	</body>
-</html>
+	</div>
+</div>
