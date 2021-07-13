@@ -27,6 +27,7 @@ router.post('/', validateReview, catchAsync( async (req, res) => {
 	campground.reviews.push(review);
 	await review.save(); //Need to save the new review into DB, otherwise we will only have an empty object reference
 	await campground.save();
+	req.flash('success', 'Successfully added review..');
 	// console.log(campground);
 	res.redirect(`/campgrounds/${campground.id}`);
 }));
@@ -40,6 +41,7 @@ router.delete('/:reviewId', catchAsync( async (req, res) => {
 	);
 	console.log("Updated camp:",camp);
 	const deletedReview = await Review.findByIdAndDelete(reviewId);
+	req.flash('success', 'Successfully deleted review..');
 	res.redirect(`/campgrounds/${camp.id}`);
 }));
 
