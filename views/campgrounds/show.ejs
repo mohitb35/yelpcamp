@@ -71,7 +71,7 @@
 				<small><em>Rating: <%= review.rating %></em></small>
 				<form
 					class="d-inline float-end"
-					action="/campgrounds/<%= campground.id %>/review/<%= review.id %>?_method=DELETE"
+					action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
 					method="post"
 				>
 					<button type="submit" class="btn btn-sm btn-danger">Delete</button>
