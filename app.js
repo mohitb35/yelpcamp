@@ -14,12 +14,13 @@ const ExpressError = require('./utils/ExpressError');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/users');
 
 const mongoose = require('mongoose');
 
 mongoose.connect(
 	'mongodb://localhost:27017/yelpcamp', //specifies URL, port and database name
-	{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+	{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }
 )
 .then(() => {
 	console.log("Connected to yelpcamp DB");
@@ -74,6 +75,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/', userRoutes);
 
 // Dummy function to demonstrate user reg with passport. To be deleted later.
 app.get('/fakeUser', async (req, res) => {
