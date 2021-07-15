@@ -56,11 +56,6 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 
 app.use(flash());
-app.use((req, res, next) => {
-	res.locals.success = req.flash('success');
-	res.locals.error = req.flash('error');
-	next();
-})
 
 app.use(passport.initialize());
 app.use(passport.session()); 
@@ -72,6 +67,15 @@ passport.serializeUser(User.serializeUser());
 //stores userId in session
 passport.deserializeUser(User.deserializeUser()); 
 //gets user info based on userId stored in session
+
+app.use((req, res, next) => {
+	res.locals.currentUser = req.user;
+	res.locals.success = req.flash('success');
+	res.locals.error = req.flash('error');
+	console.log(req.user);
+	console.log(res.locals);
+	next();
+})
 
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
