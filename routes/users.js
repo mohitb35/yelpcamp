@@ -17,8 +17,11 @@ router.post('/register', async (req, res) => {
 		const user = new User({ username, email });
 	
 		const savedUser = await User.register(user, password);
-		req.flash('success', 'Welcome to Yelpcamp!');
-		res.redirect('/campgrounds');
+		req.login(savedUser, (err) => {
+			if (err) return next(err);
+			req.flash('success', 'Welcome to Yelpcamp!');
+			res.redirect('/campgrounds');
+		});
 	} catch (error) {
 		req.flash('error', error.message);
 		res.redirect('/register');
@@ -33,8 +36,10 @@ router.get('/login', (req, res) => {
 router.post('/login',
 	passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),
 	async (req, res) => {
-		req.flash('success', 'Welcome back!')
-		res.redirect('/campgrounds');
+		req.flash('success', 'Welcome back!');
+		const redirectUrl = req.session.returnTo || '/campgrounds';
+		delete req.session.returnTo;
+		res.redirect(redirectUrl);
 	}
 );
 

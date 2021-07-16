@@ -69,11 +69,10 @@ passport.deserializeUser(User.deserializeUser());
 //gets user info based on userId stored in session
 
 app.use((req, res, next) => {
+	console.log(req.session);
 	res.locals.currentUser = req.user;
 	res.locals.success = req.flash('success');
 	res.locals.error = req.flash('error');
-	console.log(req.user);
-	console.log(res.locals);
 	next();
 })
 
