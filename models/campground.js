@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review');
 
-const CampgroundSchema = new Schema({
+const campgroundSchema = new Schema({
 	title: {
 		type: String
 	},
@@ -26,13 +26,13 @@ const CampgroundSchema = new Schema({
 	]
 });
 
-/* CampgroundSchema.pre('findOneAndDelete', (next) => {
+/* campgroundSchema.pre('findOneAndDelete', (next) => {
 	console.log("Pre");
 	console.log(this);
 	next();
 })
  */
-CampgroundSchema.post('findOneAndDelete', async (doc) => {
+campgroundSchema.post('findOneAndDelete', async (doc) => {
 	/* console.log("Post");
 	console.log(doc); */
 	if (doc) {
@@ -42,4 +42,4 @@ CampgroundSchema.post('findOneAndDelete', async (doc) => {
 	};
 })
 
-module.exports = mongoose.model('Campground', CampgroundSchema);
+module.exports = mongoose.model('Campground', campgroundSchema);
