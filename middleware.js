@@ -37,6 +37,20 @@ const validateCampground = (req, res, next) => {
 	next();
 }
 
+const isReviewAuthor = async (req, res, next) => {
+	let { id, reviewId } = req.params;
+	const foundReview = await Review.findById(reviewId);
+	if (!foundReview) {
+		req.flash('error', 'Review not found');
+		return res.redirect(`/campgrounds/${id}`);
+	}
+	if (!foundReview.author.equals(req.user.id)) {
+		req.flash('error', 'You are not authorized to do that');
+		return res.redirect(`/campgrounds/${id}`);
+	}
+	next();
+}
+
 const validateReview = (req, res, next) => {
 	const { error } = reviewSchema.validate(req.body);
 	
@@ -52,5 +66,6 @@ module.exports = {
 	isLoggedIn,
 	isAuthor,
 	validateCampground,
+	isReviewAuthor,
 	validateReview
 }
