@@ -118,7 +118,7 @@ Also refer - https://codepen.io/jamesbarnett/pen/vlpkh
 .starability-basic > label {
 	position: relative;
 	display: inline-block;
-	/* float: left; */
+	float: left;
 	width: 20px;
 	height: 20px;
 	font-size: 0.1em;
