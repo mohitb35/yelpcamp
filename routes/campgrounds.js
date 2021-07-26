@@ -31,7 +31,7 @@ router.get('/new', isLoggedIn, campgroundsController.renderNewForm);
 // Groups '/:id' routes together
 router.route('/:id')
 	.get(catchAsync(campgroundsController.showCampground))
-	.put(isLoggedIn, isAuthor, validateCampground, catchAsync(campgroundsController.updateCampground))
+	.put(isLoggedIn, isAuthor, upload.array('campground[images]'), validateCampground, catchAsync(campgroundsController.updateCampground))
 	.delete(isLoggedIn, isAuthor, catchAsync(campgroundsController.deleteCampground))
 
 // router.get('/:id', catchAsync(campgroundsController.showCampground));

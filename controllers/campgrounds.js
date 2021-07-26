@@ -54,10 +54,19 @@ const renderEditForm = async (req, res) => {
 const updateCampground = async (req, res) => {
 	let campground = req.body.campground;
 	let { id } = req.params;
-	
+	let images = req.files.map( image => {
+		return {
+			url: image.path,
+			filename: image.filename,
+			originalname: image.originalname
+		}
+	}); 
 	const updatedCamp = await Campground.findByIdAndUpdate(
 			id, campground, { new: true, useFindAndModify: false, runValidators: true }
 		);
+
+	updatedCamp.images.push(...images);
+	updatedCamp.save();
 	req.flash('success', 'Successfully updated campground..');
 	res.redirect(`/campgrounds/${updatedCamp.id}`);
 }
