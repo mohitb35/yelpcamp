@@ -49,6 +49,18 @@
 				</div>
 			</div>
 			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea
+					class="form-control"
+					id="description"
+					name="campground[description]"
+					rows="5"
+					required
+				></textarea>
+				<div class="valid-feedback">Looks good!</div>
+				<div class="invalid-feedback">Please describe the camp.</div>
+			</div>
+			<div class="mb-3">
 				<label for="images" class="form-label">Images</label>
 				<input
 					type="file"
@@ -60,18 +72,6 @@
 				/>
 				<div class="valid-feedback">Looks good!</div>
 				<div class="invalid-feedback">Please select some images.</div>
-			</div>
-			<div class="mb-3">
-				<label for="description" class="form-label">Description</label>
-				<textarea
-					class="form-control"
-					id="description"
-					name="campground[description]"
-					rows="5"
-					required
-				></textarea>
-				<div class="valid-feedback">Looks good!</div>
-				<div class="invalid-feedback">Please describe the camp.</div>
 			</div>
 			<div class="mb-3">
 				<button type="submit" class="btn btn-success">Save</button>

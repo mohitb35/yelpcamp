@@ -7,7 +7,8 @@ const campgroundSchema = Joi.object({
 		price: Joi.number().min(0).precision(2).required(),
 		// image: Joi.string().uri().required(),
 		description: Joi.string().required()
-	}).required()
+	}).required(),
+	deleteImages: Joi.array()
 });
 
 const reviewSchema = Joi.object({
