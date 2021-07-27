@@ -1,2 +1,5 @@
 node_modules/
 package-lock.json
+.env
+uploads/
+views/campgrounds/show copy.ejs

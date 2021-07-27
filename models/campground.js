@@ -2,13 +2,27 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review');
 
+const imageSchema = new Schema({
+	url: String,
+	filename: String,
+	originalname: String
+})
+
+imageSchema.virtual('thumbnailUrl').get(function() {
+	/* let { url } = this;
+	let breakpoint = url.indexOf('upload/') + 7;
+	let part1 = url.slice(0, breakpoint);
+	let modifier = 'w_200';
+	let part2 = url.slice(breakpoint-1);
+	return part1 + modifier + part2; */
+	return this.url.replace('/upload', '/upload/w_200');
+});
+
 const campgroundSchema = new Schema({
 	title: {
 		type: String
 	},
-	image: {
-		type: String
-	},
+	images: [imageSchema],
 	price: {
 		type: Number
 	},
