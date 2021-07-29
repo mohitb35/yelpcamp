@@ -8,7 +8,7 @@
 		<div class="col-md-4">
 			<img
 				class="img-fluid"
-				src="<%= campground.images[0].url %>"
+				src="<%= campground.images.length > 0 ? campground.images[0].url : '/resources/default-campground-image.png' %>"
 				alt="<%= campground.title %>"
 			/>
 		</div>

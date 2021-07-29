@@ -42,6 +42,10 @@ const seedDB = async () => {
 					originalname: 'camgground image.jpeg' 
 				}
 			],
+			geometry: { 
+				type: 'Point', 
+				coordinates: [ -97.9222112121185, 39.3812661305678 ] 
+			},
 			author: '60efd4b5c209d65646744745',
 			location: `${city}, ${state}`,
 			title: `${sample(descriptors)} ${sample(places)}`,
