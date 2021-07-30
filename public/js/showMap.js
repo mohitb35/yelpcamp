@@ -19,4 +19,7 @@ if (campground.geometry.coordinates.length > 0) {
 				)
 		)
 		.addTo(map);
+
+	// Add zoom and rotation controls to the map.
+	map.addControl(new mapboxgl.NavigationControl());
 }
