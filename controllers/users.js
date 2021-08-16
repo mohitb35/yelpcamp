@@ -4,7 +4,7 @@ const renderRegisterForm = (req, res) => {
 	res.render('users/register');
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
 	// Note - not wrapping the function in catchAsync, as we do not want the default Error handler to handle an error here and show the error template. Instead we want to stay on this page. So we use a try catch block within this function itself.
 	try {
 		const { username, email, password } = req.body;
@@ -17,6 +17,7 @@ const createUser = async (req, res) => {
 			res.redirect('/campgrounds');
 		});
 	} catch (error) {
+		console.log("In catch");
 		req.flash('error', error.message);
 		res.redirect('/register');
 	}
